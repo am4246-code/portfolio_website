@@ -16,10 +16,4 @@ That's it! The website should now be displayed in your browser.
 
 ## How to Access the Website Online
 
-This website can be accessed online once it is deployed to a web hosting service. Common methods for deployment include:
-
-*   **GitHub Pages:** For static websites, GitHub Pages is a popular and free option.
-*   **Netlify/Vercel:** These platforms offer continuous deployment from Git repositories and are great for static sites and front-end frameworks.
-*   **Traditional Web Hosting:** Upload the project files to a web server via FTP or a control panel.
-
-Once deployed, the website will be accessible via the URL provided by your hosting service.
+Link to Website: https://portfolio-website-livid-nine-22.vercel.app/
