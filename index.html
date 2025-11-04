@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amiyah Mosley - SDETPortfolio</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+
+        :root {
+            --bg-color: #120f1a; /* Very dark purple/black */
+            --card-bg: #1d1927; /* Lighter dark purple for cards */
+            --primary-color: #9d4edd; /* Bright purple */
+            --secondary-color: #c77dff; /* Lighter purple accent */
+            --text-color: #f4f4f8; /* Light gray/white */
+            --text-muted: #a0a0b0; /* Muted gray for descriptions */
+            --header-height: 4.5rem; /* 72px */
+        }
+
+        /* 2. Base & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* Offset for the fixed header when jumping to sections */
+            scroll-padding-top: var(--header-height);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            /* Add top padding to account for fixed header */
+            padding: 6rem 0 2rem 0;
+        }
+
+        /* 3. Reusable Components */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--bg-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        /* 4. Header & Navigation */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(29, 25, 39, 0.85); /* --card-bg with transparency */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            z-index: 1000;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 0.5rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Controls */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen */
+            width: 70%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            transition: right 0.3s ease-in-out;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav .close-menu {
+            font-size: 1.75rem;
+            color: var(--text-color);
+            cursor: pointer;
+            background: none;
+            border: none;
+            align-self: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* 5. Page Sections */
+
+        /* --- Home Section --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .home-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .home-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .home-content h1 span {
+            color: var(--primary-color);
+        }
+
+        .home-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .home-content .home-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* --- About Section --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            border: 5px solid white;
+            margin: 0 auto;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Projects Section (Carousel) --- */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .carousel-slide {
+            display: flex;
+            /* JS will set the transform: translateX() */
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .project-card {
+            flex: 0 0 100%; /* Make card take 100% width, don't shrink */
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-card h3 {
+            font-size: 1.75rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .project-links a {
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .project-links a i {
+            margin-right: 0.5rem;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-controls .control-btn {
+            background: var(--primary-color);
+            border: none;
+            color: var(--text-color);
+            font-size: 1.25rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .carousel-controls .control-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        /* --- Skills Section --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(157, 78, 221, 0.2);
+        }
+
+        .skill-item i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skill-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Contact Section --- */
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(199, 125, 255, 0.3);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-status {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: none; /* Hidden by default */
+        }
+
+        .form-status.success {
+            background-color: #2a9d8f;
+            color: #fff;
+            display: block;
+        }
+
+        .form-status.error {
+            background-color: #e76f51;
+            color: #fff;
+            display: block;
+        }
+
+        /* 6. Footer */
+        .main-footer {
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(157, 78, 221, 0.2);
+        }
+
+        .main-footer p {
+            color: var(--text-muted);
+        }
+
+        /* 7. Responsive Design (Media Queries) */
+        @media (max-width: 768px) {
+            :root {
+                --header-height: 4rem; /* 64px */
+            }
+
+            .nav-links {
+                display: none; /* Hide desktop nav */
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger */
+            }
+
+            .home-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .home-content .subtitle {
+                font-size: 1.25rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about-text {
+                order: 1; /* Put text below image */
+            }
+
+            .project-card img {
+                height: 250px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- =======================
+         HEADER & NAVIGATION
+    ======================== -->
+    <header class="main-header">
+        <nav class="container main-nav">
+            <a href="#home" class="logo">SDETPortfolio<span>.</span></a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Reach Out!</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle (Hamburger) -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" id="mobile-nav">
+        <button class="close-menu" id="close-menu" aria-label="Close navigation menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <ul class="mobile-nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Reach Out!</a></li>
+        </ul>
+    </div>
+
+    <!-- =======================
+         MAIN CONTENT
+    ======================== -->
+    <main>
+
+        <!-- --- HOME SECTION --- -->
+        <section id="home">
+            <div class="container home-content">
+                <h1>Hey, I'm <span>Amiyah!</span></h1>
+                <p class="subtitle">An upcoming Software Developer that is passionate about using my complex ideas and bringing it to life to help people in need!</p>
+                <div class="home-cta">
+                    <a href="#projects" class="btn">View My Work</a>
+                    <a href="#contact" class="btn btn-outline">Get In Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- ABOUT ME SECTION --- -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <img src="img/unnamed (1).jpg" alt="Amiyah Mosley">
+                    <div class="about-text">
+                        <h3>Hello, I'm Amiyah!</h3>
+                        <p>
+                            I'm a student at NJIT pursuing a major in Software and Data Engineering. During my Freshman Year of HS, I developed a interest in learning how to code to create ideas I could only imagine. With so many ideas, but lacking the skills needed to bring them to life, I decided that I wanted to dedicate my studies to learn about coding and grow proficient at it over time. 
+                        </p>
+                        <p>
+                            My journey into web development started with a simple "Hello, World!" and has grown into a deep passion for HTML, CSS, and JavaScript. I love the challenge of turning a complex idea into a simple, elegant, and user-friendly platform!
+                        </p>
+                        <p>
+                            When I'm not coding, you can find me playing basketball or improving my skills in throwing the javelin. I'm always eager to learn new skills and create projects that push my limits.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- PROJECTS SECTION --- -->
+        <section id="projects">
+            <div class="container">
+                                <h2 class="section-title">Mini Projects I've Worked On</h2>
+                                <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Here is a link to some mini projects I've created!</p>
+                                <div style="text-align: center;">
+                                    <a href="https://colab.research.google.com/drive/1R6oCQV1KEKz9jxlt5iA8S6F_f402WYS8?authuser=5#scrollTo=s7DSOCHjt7S7" target="_blank" class="btn">View Mini Projects</a>
+                                </div>
+            </div>
+        </section>
+
+        <!-- --- SKILLS SECTION --- -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title">Skills & Proficiencies</h2>
+                <div class="skills-grid">
+                    
+                    
+                    </div>
+                    <div class="skill-item">
+                        <i class="fa-brands fa-js-square"></i>
+                        <h4>JavaScript</h4>
+
+                    </div>
+                    <div class="skill-item">
+                        <i class="fa-brands fa-python"></i>
+                        <h4>Python</h4>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fa-brands fa-node-js"></i>
+                        <h4>Node.js</h4>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fa-brands fa-git-alt"></i>
+                        <h4>Git & GitHub</h4>
+                
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- CONTACT SECTION --- -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Reach Out!</h2>
+                <p style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem auto;">
+                   Want to connect with me? Feel free to reach out & send me a message!
+                </p>
+                
+                <form id="contact-form" class="contact-form" action="mailto:your-email@njit.edu" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <!-- This div will show success/error messages from JavaScript validation -->
+                    <div id="form-status" class="form-status"></div>
+
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =======================
+         FOOTER
+    ======================== -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Amiyah Mosley SDET Project.</p>
+        </div>
+    </footer>
+
+
+    <!-- =======================
+         JAVASCRIPT
+    ======================== -->
+    <script>
+        /* * This fulfills the "interactivity with JavaScript" requirement.
+         * You could copy/paste this into a separate 'script.js' file and link it:
+         * <script src="script.js" defer><\/script>
+         */
+        
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Mobile Navigation Menu ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const closeMenu = document.getElementById('close-menu');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileNavLinks = mobileNav.querySelectorAll('a');
+
+            if (menuToggle && closeMenu && mobileNav) {
+                // Open menu
+                menuToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                });
+
+                // Close menu
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                });
+
+                // Close menu when a link is clicked
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                    });
+                });
+            }
+
+            // --- 2. Active Nav Link Highlighting on Scroll ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            // Get the root style
+            const rootStyles = getComputedStyle(document.documentElement);
+            
+            window.addEventListener('scroll', () => {
+                // Get header height in pixels dynamically, parse it, and add the offset
+                const headerHeightString = rootStyles.getPropertyValue('--header-height'); // e.g., "4.5rem" or "4rem"
+                const headerHeightRem = parseFloat(headerHeightString); // e.g., 4.5
+                const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize); // e.g., 16
+                const headerHeightPixels = headerHeightRem * rootFontSize; // e.g., 72
+                const offset = headerHeightPixels + 2; // Our offset
+
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Use the dynamically calculated pixel offset
+                    if (pageYOffset >= sectionTop - offset) { 
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+
+            // --- 3. Project Carousel ---
+            const slide = document.getElementById('carousel-slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            if (slide && prevBtn && nextBtn) {
+                const projects = document.querySelectorAll('.project-card');
+                const projectCount = projects.length;
+                let currentIndex = 0;
+
+                function updateSlidePosition() {
+                    slide.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % projectCount;
+                    updateSlidePosition();
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + projectCount) % projectCount;
+                    updateSlidePosition();
+                });
+            }
+
+
+            // --- 4. Contact Form Validation ---
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const message = document.getElementById('message');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    let errors = [];
+                    
+                    if (name.value.trim() === '') {
+                        errors.push('Name is required');
+                    }
+                    if (email.value.trim() === '') {
+                        errors.push('Email is required');
+                    } else if (!isValidEmail(email.value.trim())) {
+                        errors.push('Please enter a valid email address');
+                    }
+                    if (message.value.trim() === '') {
+                        errors.push('Message is required');
+                    }
+
+                    if (errors.length > 0) {
+                        // Prevent form submission (the mailto: action)
+                        e.preventDefault(); 
+                        
+                        formStatus.textContent = errors.join(', ');
+                        formStatus.className = 'form-status error';
+                    } else {
+                        // Let the form submit normally (opening the mail client)
+                        // We can show a success message *before* it submits
+                        formStatus.textContent = 'Validation successful! Opening your email client...';
+                        formStatus.className = 'form-status success';
+                    }
+                });
+            }
+
+            function isValidEmail(email) {
+                // A simple regex for email validation
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+        });
+
+    </script>
+</body>
+</html>
+
+
+
