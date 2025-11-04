@@ -1,6 +1,6 @@
 # Amiyah Mosley - Personal Portfolio
 
-This is a personal portfolio website for Amiyah Mosley, showcasing her skills, projects, and contact information.
+This is my personal portfolio website that showcases my skills, projects, and contact information.
 
 ## How to View Locally
 
